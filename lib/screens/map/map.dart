@@ -1,8 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:popover/popover.dart';
 import 'package:steadypunpipi_vhack/widget/map/addbutton_menu.dart';
+import 'package:steadypunpipi_vhack/widget/map/addbutton_popup.dart';
 import 'package:steadypunpipi_vhack/widget/map/issue_card.dart';
 import 'package:steadypunpipi_vhack/widget/map/startbutton_menu.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,12 +25,24 @@ class _MapPageState extends State<MapPage>{
   final Location _locationController = Location();
   final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
   
+  BitmapDescriptor? potholeIcon;
   LatLng? _userLocation;
+  
+  static const List<LatLng> _positions = [
+    LatLng(37.3317, -122.0291),
+    LatLng(37.3396, -122.0224),
+  ];
 
   @override
   void initState(){
     super.initState();
+
     getLocationUpdates();
+    BitmapDescriptor.asset(
+        ImageConfiguration(size: Size(48, 48)), 'assets/images/pothole.png')
+        .then((onValue) {
+      potholeIcon = onValue;
+    });
   }
 
   @override
@@ -46,7 +59,7 @@ class _MapPageState extends State<MapPage>{
             ) 
             : googleMapping(),
             Padding(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
+              padding: const EdgeInsets.all(18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,21 +77,29 @@ class _MapPageState extends State<MapPage>{
 
   GoogleMap googleMapping() {
     return GoogleMap(
-            onMapCreated: (GoogleMapController controller) => _mapController.complete(controller),
-            initialCameraPosition: CameraPosition(
-              target: _userLocation!, 
-              zoom: 15.0,
-            ),
-            zoomControlsEnabled: false,
-            markers: {
-              Marker(
-                markerId: MarkerId('userLocation'),
-                icon: BitmapDescriptor.defaultMarker,
-                position: _userLocation!,
-                infoWindow: InfoWindow(title: 'Your Location'),
-              ),
-            },
+      onMapCreated: (GoogleMapController controller) => _mapController.complete(controller),
+      initialCameraPosition: CameraPosition(
+        target: _userLocation!, 
+        zoom: 15.0,
+      ),
+      zoomControlsEnabled: false,
+      markers: {
+        ..._positions.map((position) {
+          return Marker(
+        markerId: MarkerId(position.toString()),
+        icon: potholeIcon ?? BitmapDescriptor.defaultMarker,
+        position: position,
+        infoWindow: InfoWindow(title: 'Pothole'),
           );
+        }).toSet(),
+        Marker(
+          markerId: MarkerId('userLocation'),
+          icon: BitmapDescriptor.defaultMarker,
+          position: _userLocation!,
+          infoWindow: InfoWindow(title: 'You'),
+        ),
+      },
+    );
   }
 
   Future<void> _cameraToPosition(LatLng position) async {
@@ -192,6 +213,22 @@ class _MapPageState extends State<MapPage>{
     return Builder(
       builder: (context) {
         return GestureDetector(
+          onTap: () => showPopover(
+            context: context, 
+            bodyBuilder: (context) => menu == StartMenu ? StartMenu() : AddMenu(),
+            width: 150,
+            height: 100,
+            direction: PopoverDirection.top,
+          ),
+          onDoubleTap: menu == AddMenu 
+          ? () => showSlidingBox(
+            context: context, 
+            box: SlidingBox(
+              body: reportWidget(),
+              maxHeight: MediaQuery.of(context).size.height*0.75,
+            )
+          )
+          : null,
           child: Container(
             width: 54,
             height: 54,
@@ -208,13 +245,6 @@ class _MapPageState extends State<MapPage>{
                 ]
             ),
             child: icon,
-          ),
-          onTap: () => showPopover(
-            context: context, 
-            bodyBuilder: (context) => menu == StartMenu ? StartMenu() : AddMenu(),
-            width: 150,
-            height: 100,
-            direction: PopoverDirection.top,
           ),
         );
       }
