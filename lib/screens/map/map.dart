@@ -36,9 +36,7 @@ class _MapPageState extends State<MapPage>{
   Widget build(BuildContext context){
     return Scaffold(
       key: _scaffoldKey,
-      drawer: Drawer(
-        child: drawerListView(),
-      ),
+      drawer: drawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -46,22 +44,7 @@ class _MapPageState extends State<MapPage>{
             const Center(
               child: Text("Loading")
             ) 
-            : GoogleMap(
-              onMapCreated: (GoogleMapController controller) => _mapController.complete(controller),
-              initialCameraPosition: CameraPosition(
-                target: _userLocation!, 
-                zoom: 15.0,
-              ),
-              zoomControlsEnabled: false,
-              markers: {
-                Marker(
-                  markerId: MarkerId('userLocation'),
-                  icon: BitmapDescriptor.defaultMarker,
-                  position: _userLocation!,
-                  infoWindow: InfoWindow(title: 'Your Location'),
-                ),
-              },
-            ),
+            : googleMapping(),
             Padding(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0, bottom: 18.0),
               child: Column(
@@ -77,6 +60,25 @@ class _MapPageState extends State<MapPage>{
         ),
       ),
     );
+  }
+
+  GoogleMap googleMapping() {
+    return GoogleMap(
+            onMapCreated: (GoogleMapController controller) => _mapController.complete(controller),
+            initialCameraPosition: CameraPosition(
+              target: _userLocation!, 
+              zoom: 15.0,
+            ),
+            zoomControlsEnabled: false,
+            markers: {
+              Marker(
+                markerId: MarkerId('userLocation'),
+                icon: BitmapDescriptor.defaultMarker,
+                position: _userLocation!,
+                infoWindow: InfoWindow(title: 'Your Location'),
+              ),
+            },
+          );
   }
 
   Future<void> _cameraToPosition(LatLng position) async {
@@ -242,32 +244,34 @@ class _MapPageState extends State<MapPage>{
     );
   }
 
-  ListView drawerListView() {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        const DrawerHeader(
-          decoration: BoxDecoration(color: Colors.white),
-          child: Text(
-            'The Watcher', 
-            style: TextStyle(
-              color: Colors.black, 
-              fontSize: 24, 
-              fontWeight: FontWeight.bold
+  Drawer drawer() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.white),
+            child: Text(
+              'The Watcher', 
+              style: TextStyle(
+                color: Colors.black, 
+                fontSize: 24, 
+                fontWeight: FontWeight.bold
+              ),
             ),
           ),
-        ),
-        ListTile(
-          title: const Text('Item 1'),
-          onTap: () {
-          },
-        ),
-        ListTile(
-          title: const Text('Item 2'),
-          onTap: () {
-          },
-        ),
-      ],
+          ListTile(
+            title: const Text('Item 1'),
+            onTap: () {
+            },
+          ),
+          ListTile(
+            title: const Text('Item 2'),
+            onTap: () {
+            },
+          ),
+        ],
+      )
     );
   }
 }
