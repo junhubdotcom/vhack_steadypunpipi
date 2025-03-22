@@ -5,24 +5,7 @@ import 'package:steadypunpipi_vhack/screens/profile/profileSection/pastReport.da
 import 'package:steadypunpipi_vhack/screens/profile/profileSection/reward.dart';
 
 import 'profileSection/chartSection.dart';
- 
- void main() {
-  runApp(MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Tab Navigation',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: ProfilePage(),
-    );
-  }
-}
  class ProfilePage extends StatelessWidget {
    @override
    Widget build(BuildContext context) {
