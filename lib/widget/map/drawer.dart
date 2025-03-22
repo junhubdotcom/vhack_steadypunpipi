@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:steadypunpipi_vhack/screens/map/map.dart';
+import 'package:steadypunpipi_vhack/screens/profile/profile.dart';
+import 'package:steadypunpipi_vhack/screens/reportList/report.dart';
 
-Drawer drawer() {
+Drawer drawer(context) {
   return Drawer(
     child: ListView(
       padding: EdgeInsets.zero,
@@ -17,13 +20,21 @@ Drawer drawer() {
           ),
         ),
         ListTile(
-          title: const Text('Item 1'),
+          title: const Text('Report List'),
           onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ReportPage()),
+            );
           },
         ),
         ListTile(
-          title: const Text('Item 2'),
+          title: const Text('Profile'),
           onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
           },
         ),
       ],
