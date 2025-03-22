@@ -65,13 +65,14 @@ class _ReportPageState extends State<ReportPage> {
                   ),
                 ),
           centerTitle: true,
-          leading: IconButton(
-            icon: Icon(_isSearching ? Icons.close : Icons.menu),
-            onPressed: _isSearching ? _stopSearch : () {
+          leading: _isSearching ? IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
               // Handle drawer icon press
               Scaffold.of(context).openDrawer();
             },
-          ),
+          )
+          : null,
           actions: [
             if (!_isSearching)
               IconButton(

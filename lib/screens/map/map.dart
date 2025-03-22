@@ -31,6 +31,7 @@ class _MapPageState extends State<MapPage>{
 
   Issues issues = Issues();
   late StreamSubscription<int> _promptSubscription;
+  late StreamSubscription<LocationData> _locationSubscription;
 
   final List<Widget> _widgetArray = [
     Image.asset('assets/images/pothole.png', height: 36, width: 36),
@@ -86,6 +87,7 @@ class _MapPageState extends State<MapPage>{
   @override
   void dispose() {
     _promptSubscription.cancel();
+    _locationSubscription.cancel();
     super.dispose();
   }
 
@@ -111,7 +113,7 @@ class _MapPageState extends State<MapPage>{
   Widget build(BuildContext context){
     return Scaffold(
       key: _scaffoldKey,
-      drawer: drawer(),
+      drawer: drawer(context),
       body: SafeArea(
         child: Stack(
           children: [
@@ -198,7 +200,7 @@ class _MapPageState extends State<MapPage>{
       }
     }
 
-    _locationController.onLocationChanged.listen((LocationData currentLocation) {
+    _locationSubscription = _locationController.onLocationChanged.listen((LocationData currentLocation) {
       if (currentLocation.latitude != null && currentLocation.longitude != null) {
         setState(() {
           _userLocation = LatLng(currentLocation.latitude!, currentLocation.longitude!);
