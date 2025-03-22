@@ -12,32 +12,43 @@ class StatsSection extends StatelessWidget {
     );
   @override
   Widget build(BuildContext context){
-    return Padding(padding: const EdgeInsets.all(16.0),
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
+    child: Container(
+      padding: EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),spreadRadius: 2, blurRadius: 5, offset: Offset(0, 3))]
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
           children: [
-            StatCard(title: "TOTAL REPORTS", iconData: Icons.trending_up_rounded,value: summaryData.totalReports),
-            StatCard(title: "CONTRIBUTION", iconData: Icons.trending_down_rounded,value: summaryData.contribution),
-            StatCard(title: "RESOLVED", iconData: Icons.trending_up_rounded,value: summaryData.resolvedReports),
-          ],),
-          SizedBox(height: 16),
-           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-               _buildSummaryCard(title: "REWARDS", iconData: Icons.monetization_on_rounded,value: summaryData.rewardsPoints, unit: "points",containerColor: Colors.blue.shade400,titleColor: const Color(0xFFF2F2DF),valueColor: Colors.white),
-               _buildSummaryCard(title: "PENDING", iconData: Icons.list,value: summaryData.pendingReports),
-            ],
-          ),
-      ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                StatCard(title: "TOTAL REPORTS", iconData: Icons.trending_up_rounded,value: summaryData.totalReports),
+                StatCard(title: "CONTRIBUTION", iconData: Icons.trending_down_rounded,value: summaryData.contribution),
+                StatCard(title: "RESOLVED", iconData: Icons.trending_up_rounded,value: summaryData.resolvedReports),
+              ],),
+              SizedBox(height: 16),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                   _buildSummaryCard(title: "REWARDS", iconData: Icons.monetization_on_rounded,value: summaryData.rewardsPoints, unit: "points",containerColor: Colors.blue.shade400,titleColor: const Color(0xFFF2F2DF),valueColor: Colors.white),
+                   _buildSummaryCard(title: "PENDING", iconData: Icons.list,value: summaryData.pendingReports),
+                ],
+              ),
+          ],
+        ),
+      ),
     ),);
   }
     _buildSummaryCard({required String title, required IconData iconData, required String value, String? unit,Color? containerColor, Color? titleColor, Color? valueColor}) {
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: containerColor??Color(0xFFF1F1F1),
+        color: containerColor??Color(0xFFEAEAEA),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -46,9 +57,9 @@ class StatsSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: titleColor??Color(0xFFBDBBBB))),
+              Text(title, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17,color: titleColor??Color(0xFF979797))),
               SizedBox(width: 20),
-              Icon(iconData, color: titleColor??Color(0xFFBDBBBB))
+              Icon(iconData, color: titleColor??Color(0xFF979797))
             ],
           ),
           SizedBox(height: 5),

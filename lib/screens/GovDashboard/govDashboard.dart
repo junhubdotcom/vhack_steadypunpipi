@@ -73,7 +73,9 @@ class _GovernmentDashboardState extends State<GovernmentDashboard> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Expanded(child: GridView.count(
+              GridView.count(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 4,
               crossAxisSpacing: 4,
               mainAxisSpacing: 4,
@@ -83,10 +85,12 @@ class _GovernmentDashboardState extends State<GovernmentDashboard> {
                 _buildSummaryCards(title: 'Pending Cases', value: '90'),
                 _buildSummaryCards(title: 'In Progress', value: '70'),
                 _buildSummaryCards(title: 'Resolved Cases', value: '40'),
-              ],)
-            ),
+              ],),
+            SizedBox(height: 5),
             Expanded(
               child: GridView.count(
+                // shrinkWrap: true,
+                // physics: NeverScrollableScrollPhysics(),
                 crossAxisCount: 2,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
@@ -160,39 +164,86 @@ class _GovernmentDashboardState extends State<GovernmentDashboard> {
     );
   }
 
-  Widget _buildWeeklyReportsChart() {
-    return _buildCard(
-      'Weekly Reports', 
+Widget _buildWeeklyReportsChart() {
+  return _buildCard(
+    'Weekly Reports',
     SizedBox(
       height: 200,
       child: LineChart(
         LineChartData(
           lineBarsData: [
             LineChartBarData(
-              spots: weeklyReportData
-                  .asMap()
-                  .entries
-                  .map((e) => FlSpot(e.key.toDouble(), e.value.toDouble()))
-                  .toList(),
+              spots: weeklyReportData.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value.toDouble())).toList(),
               isCurved: true,
               barWidth: 2,
               color: Colors.blue,
               dotData: FlDotData(show: true),
-              belowBarData: BarAreaData(show: true,color: Colors.blue[100]),
+              belowBarData: BarAreaData(show: true, color: Colors.blue[100]),
             ),
           ],
           titlesData: FlTitlesData(
-              rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false))),
+            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: (value, meta) {
+                  const style = TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  );
+                  Widget text;
+                  switch (value.toInt()) {
+                    case 0:
+                      text = const Text('Mon', style: style);
+                      break;
+                    case 1:
+                      text = const Text('Tue', style: style);
+                      break;
+                    case 2:
+                      text = const Text('Wed', style: style);
+                      break;
+                    case 3:
+                      text = const Text('Thu', style: style);
+                      break;
+                    case 4:
+                      text = const Text('Fri', style: style);
+                      break;
+                    case 5:
+                      text = const Text('Sat', style: style);
+                      break;
+                    case 6:
+                      text = const Text('Sun', style: style);
+                      break;
+                    default:
+                      text = const Text('', style: style);
+                      break;
+                  }
+                  return SideTitleWidget(axisSide: meta.axisSide, space: 8.0,child: text,);
+                },
+              ),
+            ),
+            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true,reservedSize: 30,
+            getTitlesWidget: (value, meta) {
+                  const style = TextStyle(
+                    color: Colors.black,
+                    fontSize: 12,
+                  );
+                  return Text('${value.toInt()}', style: style);
+                },
+              ),
+            ),
+          ),
           borderData: FlBorderData(show: false),
           gridData: FlGridData(show: true),
-          //lineTouchData: LineTouchData(enabled: false),
         ),
       ),
     ),
-              Icons.library_books_rounded,
-              Colors.brown);
-  }
+    Icons.library_books_rounded,
+    Colors.brown,
+  );
+}
 
   Widget _buildIncidentMapCard() {
     return _buildCard(

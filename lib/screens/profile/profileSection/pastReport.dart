@@ -29,13 +29,15 @@ class PastReportsSection extends StatelessWidget {
   PastReportsSection({super.key});
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      // color: Colors.lightBlueAccent,
       padding: EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Past report", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ListView.builder(
+            padding: EdgeInsets.only(top: 5),
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemCount: pastReportData.length,

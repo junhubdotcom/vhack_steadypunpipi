@@ -26,6 +26,7 @@ class MyRewardsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("My Rewards", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          SizedBox(height: 5),
           Column(
             children: vouchers.map((voucher)=> VoucherTile(voucher:voucher)).toList(),
           ),

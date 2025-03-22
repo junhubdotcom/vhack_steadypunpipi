@@ -28,12 +28,12 @@ class _ChartSectionState extends State<ChartSection> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: tabs.map((tab) => _buildTabButton(tab)).toList(),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           const Text(
             '2,160 points',
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 15),
           Row(
             children: [
               Expanded(
