@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:steadypunpipi_vhack/common/constantS.dart';
 import 'route.dart';
 
 void main() {
