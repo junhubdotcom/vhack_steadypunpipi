@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:popover/popover.dart';
+import 'package:steadypunpipi_vhack/screens/camera/camera.dart';
 import 'package:steadypunpipi_vhack/widget/map/addbutton_menu.dart';
 import 'package:steadypunpipi_vhack/widget/map/addbutton_popup.dart';
 import 'package:steadypunpipi_vhack/widget/map/drawer.dart';
@@ -11,22 +12,27 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:steadypunpipi_vhack/models/map/issues_controller.dart';
 import 'package:steadypunpipi_vhack/models/map/event_bus.dart';
- 
-class MapPage extends StatefulWidget{
+
+class MapPage extends StatefulWidget {
   const MapPage({super.key});
 
   @override
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage>{
-
+class _MapPageState extends State<MapPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final Location _locationController = Location();
-  final Completer<GoogleMapController> _mapController = Completer<GoogleMapController>();
-  
-  BitmapDescriptor? potholeIcon, fallenTreeIcon, accidentIcon, brokenStreetlightIcon, roadConstructionIcon, blockedRoadIcon;
+  final Completer<GoogleMapController> _mapController =
+      Completer<GoogleMapController>();
+
+  BitmapDescriptor? potholeIcon,
+      fallenTreeIcon,
+      accidentIcon,
+      brokenStreetlightIcon,
+      roadConstructionIcon,
+      blockedRoadIcon;
   LatLng? _userLocation;
 
   Issues issues = Issues();
@@ -43,38 +49,38 @@ class _MapPageState extends State<MapPage>{
   ];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     getLocationUpdates();
 
     BitmapDescriptor.asset(
-        ImageConfiguration(size: Size(48, 48)), 'assets/images/pothole.png')
+            ImageConfiguration(size: Size(48, 48)), 'assets/images/pothole.png')
         .then((onValue) {
       potholeIcon = onValue;
     });
-    BitmapDescriptor.asset(
-        ImageConfiguration(size: Size(48, 48)), 'assets/images/fallentree.png')
+    BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
+            'assets/images/fallentree.png')
         .then((onValue) {
       fallenTreeIcon = onValue;
     });
-    BitmapDescriptor.asset(
-        ImageConfiguration(size: Size(48, 48)), 'assets/images/accident.png')
+    BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
+            'assets/images/accident.png')
         .then((onValue) {
       accidentIcon = onValue;
     });
-    BitmapDescriptor.asset(
-        ImageConfiguration(size: Size(48, 48)), 'assets/images/broken_streetlight.png')
+    BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
+            'assets/images/broken_streetlight.png')
         .then((onValue) {
       brokenStreetlightIcon = onValue;
     });
-    BitmapDescriptor.asset(
-        ImageConfiguration(size: Size(48, 48)), 'assets/images/road_construction.png')
+    BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
+            'assets/images/road_construction.png')
         .then((onValue) {
       roadConstructionIcon = onValue;
     });
-    BitmapDescriptor.asset(
-        ImageConfiguration(size: Size(48, 48)), 'assets/images/blocked_road.png')
+    BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
+            'assets/images/blocked_road.png')
         .then((onValue) {
       blockedRoadIcon = onValue;
     });
@@ -88,6 +94,7 @@ class _MapPageState extends State<MapPage>{
   void dispose() {
     _promptSubscription.cancel();
     _locationSubscription.cancel();
+    _locationSubscription.cancel();
     super.dispose();
   }
 
@@ -96,13 +103,19 @@ class _MapPageState extends State<MapPage>{
       issues.addReport(
         id: prompt,
         pos: _userLocation!,
-        title: prompt == 1 ? 'Pothole' :
-               prompt == 2 ? 'Fallen Tree' :
-               prompt == 3 ? 'Accident' :
-               prompt == 4 ? 'Broken Streetlight' :
-               prompt == 5 ? 'Road Construction' :
-               prompt == 6 ? 'Blocked Road' :
-               'Other',
+        title: prompt == 1
+            ? 'Pothole'
+            : prompt == 2
+                ? 'Fallen Tree'
+                : prompt == 3
+                    ? 'Accident'
+                    : prompt == 4
+                        ? 'Broken Streetlight'
+                        : prompt == 5
+                            ? 'Road Construction'
+                            : prompt == 6
+                                ? 'Blocked Road'
+                                : 'Other',
         address: 'Unknown',
         count: 0,
       );
@@ -110,27 +123,23 @@ class _MapPageState extends State<MapPage>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      drawer: drawer(context),
       drawer: drawer(context),
       body: SafeArea(
         child: Stack(
           children: [
-            _userLocation == null ? 
-            const Center(
-              child: Text("Loading")
-            ) 
-            : googleMapping(),
+            _userLocation == null
+                ? const Center(child: Text("Loading"))
+                : googleMapping(),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  menuButton(),
-                  bottomWidgets()
-                ],
+                children: [menuButton(), bottomWidgets()],
               ),
             ),
           ],
@@ -141,9 +150,10 @@ class _MapPageState extends State<MapPage>{
 
   GoogleMap googleMapping() {
     return GoogleMap(
-      onMapCreated: (GoogleMapController controller) => _mapController.complete(controller),
+      onMapCreated: (GoogleMapController controller) =>
+          _mapController.complete(controller),
       initialCameraPosition: CameraPosition(
-        target: _userLocation!, 
+        target: _userLocation!,
         zoom: 15.0,
       ),
       zoomControlsEnabled: false,
@@ -157,13 +167,19 @@ class _MapPageState extends State<MapPage>{
         for (int i = 0; i < issues.getReportCount(); i++)
           Marker(
             markerId: MarkerId('issue$i'),
-            icon: issues.getReport(i)!['id'] == 1 ? potholeIcon! :
-                issues.getReport(i)!['id'] == 2 ? fallenTreeIcon! :
-                issues.getReport(i)!['id'] == 3 ? accidentIcon! :
-                issues.getReport(i)!['id'] == 4 ? brokenStreetlightIcon! :
-                issues.getReport(i)!['id'] == 5 ? roadConstructionIcon! :
-                issues.getReport(i)!['id'] == 6 ? blockedRoadIcon! :
-                BitmapDescriptor.defaultMarker,
+            icon: issues.getReport(i)!['id'] == 1
+                ? potholeIcon!
+                : issues.getReport(i)!['id'] == 2
+                    ? fallenTreeIcon!
+                    : issues.getReport(i)!['id'] == 3
+                        ? accidentIcon!
+                        : issues.getReport(i)!['id'] == 4
+                            ? brokenStreetlightIcon!
+                            : issues.getReport(i)!['id'] == 5
+                                ? roadConstructionIcon!
+                                : issues.getReport(i)!['id'] == 6
+                                    ? blockedRoadIcon!
+                                    : BitmapDescriptor.defaultMarker,
             position: issues.getReport(i)!['pos'],
             infoWindow: InfoWindow(title: issues.getReport(i)!['title']),
           ),
@@ -173,11 +189,10 @@ class _MapPageState extends State<MapPage>{
 
   Future<void> _cameraToPosition(LatLng position) async {
     final GoogleMapController controller = await _mapController.future;
-    CameraPosition _newCameraPosition = CameraPosition(
-      target: position, 
-      zoom: 15.0
-    );
-    await controller.animateCamera(CameraUpdate.newCameraPosition(_newCameraPosition));
+    CameraPosition _newCameraPosition =
+        CameraPosition(target: position, zoom: 15.0);
+    await controller
+        .animateCamera(CameraUpdate.newCameraPosition(_newCameraPosition));
   }
 
   Future<void> getLocationUpdates() async {
@@ -203,7 +218,8 @@ class _MapPageState extends State<MapPage>{
     _locationSubscription = _locationController.onLocationChanged.listen((LocationData currentLocation) {
       if (currentLocation.latitude != null && currentLocation.longitude != null) {
         setState(() {
-          _userLocation = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+          _userLocation =
+              LatLng(currentLocation.latitude!, currentLocation.longitude!);
           _cameraToPosition(_userLocation!);
         });
       }
@@ -214,22 +230,55 @@ class _MapPageState extends State<MapPage>{
     return Column(
       children: [
         Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          customActionButton(
-            Icon(Icons.play_arrow_rounded, color: Colors.black, size: 36,), 
-            StartMenu
-          ),
-          customActionButton(
-            Icon(Icons.add, color: Colors.black, size: 36,), 
-            AddMenu
-          ),
-        ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            customActionButton(
+                Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.black,
+                  size: 36,
+                ),
+                StartMenu),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CameraPage()));
+              },
+              child: Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                        offset: Offset(0, 4),
+                      )
+                    ]),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.black,
+                  size: 36,
+                ),
+              ),
+            ),
+            // customActionButton(
+            //   Icon(Icons.add, color: Colors.black, size: 36,),
+            //   AddMenu
+            // ),
+          ],
         ),
-        SizedBox(height: 18,),
+        SizedBox(
+          height: 18,
+        ),
         searchBar(),
-        SizedBox(height: 18,),
+        SizedBox(
+          height: 18,
+        ),
         issueCardRow(),
       ],
     );
@@ -239,18 +288,19 @@ class _MapPageState extends State<MapPage>{
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.only(top: 9.0, bottom: 9.0, left: 3, right: 3),
+        padding:
+            const EdgeInsets.only(top: 9.0, bottom: 9.0, left: 3, right: 3),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            for (int i = 0; i < issues.getReportCount(); i++) 
-            IssueCard(
-              icon: _widgetArray[issues.getReport(i)!['id'] - 1],
-              title: issues.getReport(i)!['title'],
-              address: issues.getReport(i)!['address'],
-              count: issues.getReport(i)!['count'].toString(),
-            ),
+            for (int i = 0; i < issues.getReportCount(); i++)
+              IssueCard(
+                icon: _widgetArray[issues.getReport(i)!['id'] - 1],
+                title: issues.getReport(i)!['title'],
+                address: issues.getReport(i)!['address'],
+                count: issues.getReport(i)!['count'].toString(),
+              ),
           ],
         ),
       ),
@@ -259,7 +309,10 @@ class _MapPageState extends State<MapPage>{
 
   SearchBar searchBar() {
     return SearchBar(
-      leading: Icon(Icons.search, color: Colors.black,),
+      leading: Icon(
+        Icons.search,
+        color: Colors.black,
+      ),
       hintText: 'Search',
       backgroundColor: WidgetStateProperty.all(Colors.white),
       shadowColor: WidgetStateProperty.all(Colors.black54),
@@ -269,45 +322,41 @@ class _MapPageState extends State<MapPage>{
   }
 
   Builder customActionButton(Widget icon, Type menu) {
-    return Builder(
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => showPopover(
-            context: context, 
-            bodyBuilder: (context) => menu == StartMenu ? StartMenu() : AddMenu(),
-            width: 150,
-            height: 100,
-            direction: PopoverDirection.top,
-          ),
-          onDoubleTap: menu == AddMenu 
-          ? () => showSlidingBox(
-            context: context, 
-            box: SlidingBox(
-              body: reportWidget(),
-              maxHeight: MediaQuery.of(context).size.height*0.75,
-            )
-          )
-          : null,
-          child: Container(
-            width: 54,
-            height: 54,
-            decoration: BoxDecoration(
+    return Builder(builder: (context) {
+      return GestureDetector(
+        onTap: () => showPopover(
+          context: context,
+          bodyBuilder: (context) => menu == StartMenu ? StartMenu() : AddMenu(),
+          width: 150,
+          height: 100,
+          direction: PopoverDirection.top,
+        ),
+        onDoubleTap: menu == AddMenu
+            ? () => showSlidingBox(
+                context: context,
+                box: SlidingBox(
+                  body: reportWidget(),
+                  maxHeight: MediaQuery.of(context).size.height * 0.75,
+                ))
+            : null,
+        child: Container(
+          width: 54,
+          height: 54,
+          decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    spreadRadius: 0,
-                    offset: Offset(0, 4),
-                  )
-                ]
-            ),
-            child: icon,
-          ),
-        );
-      }
-    );
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 4,
+                  spreadRadius: 0,
+                  offset: Offset(0, 4),
+                )
+              ]),
+          child: icon,
+        ),
+      );
+    });
   }
 
   GestureDetector menuButton() {
@@ -316,18 +365,20 @@ class _MapPageState extends State<MapPage>{
         width: 54,
         height: 45,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(9),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 4,
-              spreadRadius: 0,
-              offset: Offset(0, 4),
-            )
-          ]
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(9),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 4,
+                spreadRadius: 0,
+                offset: Offset(0, 4),
+              )
+            ]),
+        child: Icon(
+          Icons.menu,
+          color: Colors.black,
         ),
-        child: Icon(Icons.menu, color: Colors.black,),
       ),
       onTap: () => _scaffoldKey.currentState?.openDrawer(),
     );
