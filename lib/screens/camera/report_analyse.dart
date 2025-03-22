@@ -137,9 +137,9 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    // SizedBox(
+                    //   height: 8,
+                    // ),
                     Label(title: "Issue Type"),
                     DropdownButtonFormField<String>(
                       decoration: InputDecoration(
@@ -176,11 +176,11 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 12,
-                    ),
+                    // SizedBox(
+                    //   height: 12,
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -201,16 +201,16 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    // SizedBox(
+                    //   height: 8,
+                    // ),
                     Label(title: "Time"),
                     FillBox(
                       textEditingController: time_controller,
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    // SizedBox(
+                    //   height: 8,
+                    // ),
                     Label(title: "Location"),
                     FillBox(
                       textEditingController: location_controller,
@@ -219,15 +219,17 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         icon: Icon(Icons.location_searching),
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    // SizedBox(
+                    //   height: 8,
+                    // ),
                     Label(title: "Nearby Landmark"),
                     FillBox(
                       textEditingController: nearby_landmark_controller,
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 5, left: 10),
                       width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: Colors.black, // Background color
                         shape: BoxShape.circle,
@@ -238,9 +240,9 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         color: Colors.white, // Icon color
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    // SizedBox(
+                    //   height: 8,
+                    // ),
                     Label(title: "Department Responsible"),
                     DropdownButtonFormField<String>(
                       decoration: InputDecoration(
@@ -297,9 +299,9 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    // SizedBox(
+                    //   height: 8,
+                    // ),
                     Label(title: "Desscription (Optional)"),
                     FillBox(
                       textEditingController: description_controller,
@@ -312,7 +314,7 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                       height: 60,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width * 0.35,
@@ -326,7 +328,7 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                                 backgroundColor: Colors.black),
                           ),
                         ),
-                        SizedBox(width: 5),
+                        // SizedBox(width: 5),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ElevatedButton(

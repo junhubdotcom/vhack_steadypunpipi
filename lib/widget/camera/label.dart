@@ -6,9 +6,12 @@ class Label extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(fontSize: 16),
+    return Padding(
+      padding: const EdgeInsets.only(top: 22, bottom: 7),
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 16),
+      ),
     );
   }
 }
