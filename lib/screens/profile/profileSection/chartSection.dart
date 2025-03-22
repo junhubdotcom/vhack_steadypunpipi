@@ -14,7 +14,7 @@ class _ChartSectionState extends State<ChartSection> {
   final List<PieChartSectionData> chartData = [
     PieChartSectionData(color: Color(0xFFF48FB1), value: 65, title: '65%', radius: 50),
     PieChartSectionData(color: Color(0xFFFFBA49), value: 15, title: '15%', radius: 50),
-    PieChartSectionData(color: Color(0xFF819B63), value: 20, title: '20%', radius: 50),
+    PieChartSectionData(color: Color(0xFFAED581), value: 20, title: '20%', radius: 50),
   ];
 
   @override
