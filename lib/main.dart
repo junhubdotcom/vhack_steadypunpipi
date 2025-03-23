@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:steadypunpipi_vhack/models/map/noti_service.dart';
 import 'package:steadypunpipi_vhack/screens/map/map.dart';
-import 'route.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NotiService().initNotification();
   runApp(MyApp());
 }
 

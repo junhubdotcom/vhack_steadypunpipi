@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:popover/popover.dart';
+import 'package:steadypunpipi_vhack/models/map/noti_service.dart';
 import 'package:steadypunpipi_vhack/screens/camera/camera.dart';
 import 'package:steadypunpipi_vhack/widget/map/addbutton_menu.dart';
 import 'package:steadypunpipi_vhack/widget/map/addbutton_popup.dart';
@@ -38,6 +40,8 @@ class _MapPageState extends State<MapPage> {
   Issues issues = Issues();
   late StreamSubscription<int> _promptSubscription;
   late StreamSubscription<LocationData> _locationSubscription;
+
+  bool _isInMode = false;
 
   final List<Widget> _widgetArray = [
     Image.asset('assets/images/pothole.png', height: 36, width: 36),
@@ -88,6 +92,8 @@ class _MapPageState extends State<MapPage> {
     _promptSubscription = EventBus().stream.listen((int prompt) {
       _handlePrompt(prompt);
     });
+
+    NotiService().initNotification();
   }
 
   @override
@@ -99,27 +105,33 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _handlePrompt(int prompt) {
-    setState(() {
+    if (prompt != 9) {
+      setState(() {
       issues.addReport(
         id: prompt,
         pos: _userLocation!,
         title: prompt == 1
-            ? 'Pothole'
-            : prompt == 2
-                ? 'Fallen Tree'
-                : prompt == 3
-                    ? 'Accident'
-                    : prompt == 4
-                        ? 'Broken Streetlight'
-                        : prompt == 5
-                            ? 'Road Construction'
-                            : prompt == 6
-                                ? 'Blocked Road'
-                                : 'Other',
+          ? 'Pothole'
+          : prompt == 2
+            ? 'Fallen Tree'
+            : prompt == 3
+              ? 'Accident'
+              : prompt == 4
+                ? 'Broken Streetlight'
+                : prompt == 5
+                  ? 'Road Construction'
+                  : prompt == 6
+                    ? 'Blocked Road'
+                    : 'Other',
         address: 'Unknown',
         count: 0,
       );
-    });
+      });
+    } else {
+      setState(() {
+        _isInMode = true;
+      });
+    }
   }
 
   @override
@@ -127,14 +139,13 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: drawer(context),
-      drawer: drawer(context),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            _userLocation == null
-                ? const Center(child: Text("Loading"))
-                : googleMapping(),
-            Padding(
+      body: Stack(
+        children: [
+          _userLocation == null
+              ? const Center(child: Text("Loading"))
+              : googleMapping(),
+          SafeArea(
+            child: Padding(
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,16 +153,19 @@ class _MapPageState extends State<MapPage> {
                 children: [menuButton(), bottomWidgets()],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   GoogleMap googleMapping() {
     return GoogleMap(
-      onMapCreated: (GoogleMapController controller) =>
-          _mapController.complete(controller),
+      onMapCreated: (GoogleMapController controller) {
+        if (!_mapController.isCompleted) {
+          _mapController.complete(controller);
+        }
+      },
       initialCameraPosition: CameraPosition(
         target: _userLocation!,
         zoom: 15.0,
@@ -220,7 +234,24 @@ class _MapPageState extends State<MapPage> {
         setState(() {
           _userLocation =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
+
           _cameraToPosition(_userLocation!);
+
+          if (_isInMode) {
+            for (int i = 0; i < issues.getReportCount(); i++) {
+              final report = issues.getReport(i)!;
+              final distance = Geolocator.distanceBetween(
+              _userLocation!.latitude,
+              _userLocation!.longitude,
+              report['pos'].latitude,
+              report['pos'].longitude,
+              );
+              NotiService().showNotification(
+                title: 'Title',
+                body: 'Body',
+              );
+            }
+          }
         });
       }
     });
@@ -240,36 +271,10 @@ class _MapPageState extends State<MapPage> {
                   size: 36,
                 ),
                 StartMenu),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CameraPage()));
-              },
-              child: Container(
-                width: 54,
-                height: 54,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        spreadRadius: 0,
-                        offset: Offset(0, 4),
-                      )
-                    ]),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 36,
-                ),
-              ),
+            customActionButton(
+              Icon(Icons.add, color: Colors.black, size: 36,),
+              AddMenu
             ),
-            // customActionButton(
-            //   Icon(Icons.add, color: Colors.black, size: 36,),
-            //   AddMenu
-            // ),
           ],
         ),
         SizedBox(
@@ -324,13 +329,14 @@ class _MapPageState extends State<MapPage> {
   Builder customActionButton(Widget icon, Type menu) {
     return Builder(builder: (context) {
       return GestureDetector(
-        onTap: () => showPopover(
+        onTap: () => menu == StartMenu ? showPopover(
           context: context,
-          bodyBuilder: (context) => menu == StartMenu ? StartMenu() : AddMenu(),
+          bodyBuilder: (context) => StartMenu(),
           width: 150,
           height: 100,
           direction: PopoverDirection.top,
-        ),
+        )
+        : Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPage())),
         onDoubleTap: menu == AddMenu
             ? () => showSlidingBox(
                 context: context,
