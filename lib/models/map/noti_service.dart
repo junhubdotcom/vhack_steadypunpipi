@@ -28,10 +28,10 @@ class NotiService {
     );
   }
 
-  NotificationDetails notificationDetails() {
+  notificationDetails() {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
-        'channelid',
+        'channel id',
         'channel name',
         channelDescription: 'channel description',
         importance: Importance.max,
@@ -47,11 +47,12 @@ class NotiService {
     String? title,
     String? body,
   }) async {
+    print('I am run bitch');
     return notificationsPlugin.show(
       id,
       title,
       body,
-      const NotificationDetails(),
+      await notificationDetails(),
     );
   }
 }

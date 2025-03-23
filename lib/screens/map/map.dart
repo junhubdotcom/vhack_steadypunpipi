@@ -92,8 +92,6 @@ class _MapPageState extends State<MapPage> {
     _promptSubscription = EventBus().stream.listen((int prompt) {
       _handlePrompt(prompt);
     });
-
-    NotiService().initNotification();
   }
 
   @override
@@ -246,10 +244,15 @@ class _MapPageState extends State<MapPage> {
               report['pos'].latitude,
               report['pos'].longitude,
               );
-              NotiService().showNotification(
-                title: 'Title',
-                body: 'Body',
-              );
+
+              print(distance);
+              
+              if (distance < 300) {
+                NotiService().showNotification(
+                  title: report['title'],
+                  body: '${report['title']} is ${distance.toStringAsFixed(2)} meters away.',
+                );
+              }
             }
           }
         });
@@ -265,12 +268,9 @@ class _MapPageState extends State<MapPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             customActionButton(
-                Icon(
-                  Icons.play_arrow_rounded,
-                  color: Colors.black,
-                  size: 36,
-                ),
-                StartMenu),
+              !_isInMode ? Icon(Icons.play_arrow_rounded, color: Colors.black, size: 36,)
+              : Icon(Icons.pause, color: Colors.black, size: 36,),
+              StartMenu),
             customActionButton(
               Icon(Icons.add, color: Colors.black, size: 36,),
               AddMenu
@@ -329,13 +329,14 @@ class _MapPageState extends State<MapPage> {
   Builder customActionButton(Widget icon, Type menu) {
     return Builder(builder: (context) {
       return GestureDetector(
-        onTap: () => menu == StartMenu ? showPopover(
-          context: context,
-          bodyBuilder: (context) => StartMenu(),
-          width: 150,
-          height: 100,
-          direction: PopoverDirection.top,
-        )
+        onTap: () => menu == StartMenu ? !_isInMode ? showPopover(
+            context: context,
+            bodyBuilder: (context) => StartMenu(),
+            width: 150,
+            height: 100,
+            direction: PopoverDirection.top,
+          )
+          : setState(() => _isInMode = false)
         : Navigator.push(context, MaterialPageRoute(builder: (context) => CameraPage())),
         onDoubleTap: menu == AddMenu
             ? () => showSlidingBox(
