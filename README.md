@@ -19,14 +19,46 @@ A transparent issue tracking system updates statuses, including "Reported," "Und
 ## Get Started
 Follow these steps to set up and run the Road Protector system for development and testing.
 
-### Prerequisites
+### 1. Prerequisites
+Before proceeding, ensure you have the following installed:
 ✅ Flutter 
 ✅ Firebase CLI 
-✅ Visual Studio Code
+✅ Visual Studio Code/ Android Studio
 
-### Clone the Repository
+### 2. Clone the Repository
+Clone the project from your GitHub.
 ```
 git clone https://github.com/yourusername/yourrepository.git
 cd yourrepository
+```
+
+### 3. Set Up the Flutter Frontend
+#### Install dependencies
+```
+flutter pub get
+```
+#### Run the app
+```
+flutter run
+```
+
+### 4. Configure Firebase
+1. Create a Firebase Project in Firebase Console.
+2. Enable Firebase Authentication and Cloud Firestore.
+3. Download the google-services.json (Android) or GoogleService-Info.plist (iOS) and place them in the mobile_app/android/app/ or mobile_app/ios/Runner/ directory.
+4. Run Firebase setup command:
+```
+firebase login
+firebase init
+```
+
+### 5. Backend API and AI Integration
+### Google Cloud Vision API, Gemini AI & Google Maps Setup
+1. Enable APIs in Google Cloud Console
+2. Generate API Keys and Add to Configuration File
+```
+GOOGLE_VISION_API_KEY=your_api_key
+GEMINI_AI_KEY=your_api_key
+GOOGLE_MAPS_API_KEY=your_api_key
 ```
 
