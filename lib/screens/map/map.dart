@@ -46,10 +46,10 @@ class _MapPageState extends State<MapPage> {
   final List<Widget> _widgetArray = [
     Image.asset('assets/images/pothole.png', height: 36, width: 36),
     Image.asset('assets/images/fallentree.png', height: 36, width: 36),
-    Image.asset('assets/images/accident.png', height: 36, width: 36),
+    Image.asset('assets/images/clogged_drain.png', height: 36, width: 36),
     Image.asset('assets/images/broken_streetlight.png', height: 36, width: 36),
-    Image.asset('assets/images/road_construction.png', height: 36, width: 36),
-    Image.asset('assets/images/blocked_road.png', height: 36, width: 36),
+    Image.asset('assets/images/damaged_sidewalk.png', height: 36, width: 36),
+    Image.asset('assets/images/blocked_streetsign.png', height: 36, width: 36),
   ];
 
   @override
@@ -69,7 +69,7 @@ class _MapPageState extends State<MapPage> {
       fallenTreeIcon = onValue;
     });
     BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
-            'assets/images/accident.png')
+            'assets/images/clogged_drain.png')
         .then((onValue) {
       accidentIcon = onValue;
     });
@@ -79,12 +79,12 @@ class _MapPageState extends State<MapPage> {
       brokenStreetlightIcon = onValue;
     });
     BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
-            'assets/images/road_construction.png')
+            'assets/images/damaged_sidewalk.png')
         .then((onValue) {
       roadConstructionIcon = onValue;
     });
     BitmapDescriptor.asset(ImageConfiguration(size: Size(48, 48)),
-            'assets/images/blocked_road.png')
+            'assets/images/blocked_streetsign.png')
         .then((onValue) {
       blockedRoadIcon = onValue;
     });
@@ -113,13 +113,13 @@ class _MapPageState extends State<MapPage> {
           : prompt == 2
             ? 'Fallen Tree'
             : prompt == 3
-              ? 'Accident'
+              ? 'Clogged Drain'
               : prompt == 4
                 ? 'Broken Streetlight'
                 : prompt == 5
-                  ? 'Road Construction'
+                  ? 'Damaged Sidewalk'
                   : prompt == 6
-                    ? 'Blocked Road'
+                    ? 'Blocked Street Sign'
                     : 'Other',
         address: 'Unknown',
         count: 0,

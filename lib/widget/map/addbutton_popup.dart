@@ -5,10 +5,10 @@ class reportWidget extends StatelessWidget {
   final List<Map<String, dynamic>> reportOptions = [
     {'icon': Image.asset('assets/images/pothole.png', height: 36, width: 36), 'label': 'Pothole'},
     {'icon': Image.asset('assets/images/fallentree.png', height: 36, width: 36), 'label': 'Fallen Tree'},
-    {'icon': Image.asset('assets/images/accident.png', height: 36, width: 36), 'label': 'Accident'},
+    {'icon': Image.asset('assets/images/clogged_drain.png', height: 36, width: 36), 'label': 'Clogged Drain'},
     {'icon': Image.asset('assets/images/broken_streetlight.png', height: 36, width: 36), 'label': 'Broken Streetlight'},
-    {'icon': Image.asset('assets/images/road_construction.png', height: 36, width: 36), 'label': 'Road Construction'},
-    {'icon': Image.asset('assets/images/blocked_road.png', height: 36, width: 36), 'label': 'Road Obstruction'},
+    {'icon': Image.asset('assets/images/damaged_sidewalk.png', height: 36, width: 36), 'label': 'Damaged Sidewalk'},
+    {'icon': Image.asset('assets/images/blocked_streetsign.png', height: 36, width: 36), 'label': 'Blocked Street Sign'},
   ];
 
   @override
