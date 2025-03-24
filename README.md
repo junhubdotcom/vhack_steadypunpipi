@@ -51,5 +51,5 @@ To launch the web dashboard in Chrome:
 ```
 flutter run -t lib/govDashboard.dart -d chrome
 ```
-
+🔹 Note: If you want to run both at the same time, open two separate terminals and run each command in a different terminal.
 
