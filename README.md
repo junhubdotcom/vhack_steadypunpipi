@@ -28,8 +28,8 @@ Before proceeding, ensure you have the following installed:
 ### 2. Clone the Repository
 Clone the project from your GitHub.
 ```
-git clone https://github.com/yourusername/yourrepository.git
-cd yourrepository
+git clone https://github.com/yourusername/yourrepository.git](https://github.com/junhubdotcom/vhack_steadypunpipi.git
+cd vhack_steadypunpipi
 ```
 
 ### 3. Set Up the Flutter Frontend
@@ -41,7 +41,7 @@ flutter pub get
 ### 4. Configure Firebase
 1. Create a Firebase Project in Firebase Console.
 2. Enable Firebase Authentication, Cloud Firestore, and Cloud Storage in Firebase.
-3. Download the google-services.json (Android) or GoogleService-Info.plist (iOS) and place them in the mobile_app/android/app/ or mobile_app/ios/Runner/ directory.
+3. Download the google-services.json (Android) and place them in the mobile_app/android/app/ directory.
 4. Run Firebase setup command:
 ```
 firebase login
@@ -60,7 +60,6 @@ GOOGLE_MAPS_API_KEY=your_api_key
 
 ### 6. Running the Full System
 Once everything is set up:
-
 #### Start the Flutter app
 ```
 flutter run
