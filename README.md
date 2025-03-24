@@ -20,7 +20,7 @@ A transparent issue tracking system updates statuses, including "Reported," "Und
 Follow these steps to set up and run the Road Protector system for development and testing.
 
 ### 1. Prerequisites
-Before proceeding, ensure you have the following installed:
+Before proceeding, ensure you have the following installed:  
 ✅ Flutter   
 ✅ Firebase CLI   
 ✅ Visual Studio Code/ Android Studio  
