@@ -14,8 +14,22 @@ class ApiService {
       final image = File(imgPath);
       final bytes = await image.readAsBytes();
       final String mimeType = 'image/jpeg';
+
+      // Get google vision result
+      final visionResult = await classifyImage(imgPath);
+      print(visionResult);
+      String visionLabels = "";
+
+      if (visionResult != null) {
+        final labels = visionResult['responses'][0]['labelAnnotations'] ?? [];
+        visionLabels =
+            labels.map((label) => label['description']).take(5).join(", ");
+        print(visionLabels);
+      }
+
       final String prompt = '''
-Analyze the given image and identify the issue it represents. Classify the issue according to the following categories:
+Identify the issue by analyzing both the image and its extracted labels ($visionLabels) for accurate classification.
+Categorize the issue based on the following criteria:
 
 - **Title**: Select one from {Pothole, Fallen Tree, Accident, Broken Streetlight, Road Construction, Road Obstruction}.
 - **ID**: Assign a corresponding ID based on the title:
@@ -67,38 +81,39 @@ Analyze the given image and identify the issue it represents. Classify the issue
     }
   }
 
-  // Future<Map<String, dynamic>?> classifyImage(String imagePath) async {
-  //   try {
-  //     final bytes = File(imagePath).readAsBytesSync();
-  //     final String base64Image = base64Encode(bytes);
+  Future<Map<String, dynamic>?> classifyImage(String imagePath) async {
+    try {
+      final bytes = File(imagePath).readAsBytesSync();
+      final String base64Image = base64Encode(bytes);
 
-  //     final response = await http.post(
-  //       Uri.parse("https://vision.googleapis.com/v1/images:annotate?key= ${Constants.GOOGLE_VISION_API_KEY}"),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonEncode({
-  //         'requests': [
-  //           {
-  //             'image': {'content': base64Image},
-  //             'features': [
-  //               {'type': 'LABEL_DETECTION'},
-  //               {'type': 'OBJECT_LOCALIZATION'},
-  //               {'type': 'WEB_DETECTION'},
-  //               {'type': 'IMAGE_PROPERTIES'},
-  //             ]
-  //           }
-  //         ]
-  //       }),
-  //     );
+      final response = await http.post(
+        Uri.parse(
+            "https://vision.googleapis.com/v1/images:annotate?key= ${Constants.GOOGLE_VISION_API_KEY}"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'requests': [
+            {
+              'image': {'content': base64Image},
+              'features': [
+                {'type': 'LABEL_DETECTION'},
+                {'type': 'OBJECT_LOCALIZATION'},
+                {'type': 'WEB_DETECTION'},
+                {'type': 'IMAGE_PROPERTIES'},
+              ]
+            }
+          ]
+        }),
+      );
 
-  //     if (response.statusCode == 200) {
-  //       return jsonDecode(response.body);
-  //     } else {
-  //       print('Error: ${response.statusCode}, ${response.body}');
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //     return null;
-  //   }
-  // }
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        print('Error: ${response.statusCode}, ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return null;
+    }
+  }
 }
