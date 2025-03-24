@@ -37,14 +37,10 @@ cd yourrepository
 ```
 flutter pub get
 ```
-#### Run the app
-```
-flutter run
-```
 
 ### 4. Configure Firebase
 1. Create a Firebase Project in Firebase Console.
-2. Enable Firebase Authentication and Cloud Firestore.
+2. Enable Firebase Authentication, Cloud Firestore, and Cloud Storage in Firebase.
 3. Download the google-services.json (Android) or GoogleService-Info.plist (iOS) and place them in the mobile_app/android/app/ or mobile_app/ios/Runner/ directory.
 4. Run Firebase setup command:
 ```
@@ -53,12 +49,20 @@ firebase init
 ```
 
 ### 5. Backend API and AI Integration
-### Google Cloud Vision API, Gemini AI & Google Maps Setup
+#### Google Cloud Vision API, Gemini AI & Google Maps Setup
 1. Enable APIs in Google Cloud Console
-2. Generate API Keys and Add to Configuration File
+2. Generate API keys and add them to ApiService.dart file
 ```
 GOOGLE_VISION_API_KEY=your_api_key
 GEMINI_AI_KEY=your_api_key
 GOOGLE_MAPS_API_KEY=your_api_key
+```
+
+### 6. Running the Full System
+Once everything is set up:
+
+#### Start the Flutter app
+```
+flutter run
 ```
 
