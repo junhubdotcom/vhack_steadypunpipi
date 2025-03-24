@@ -21,9 +21,9 @@ Follow these steps to set up and run the Road Protector system for development a
 
 ### 1. Prerequisites
 Before proceeding, ensure you have the following installed:
-✅ Flutter 
-✅ Firebase CLI 
-✅ Visual Studio Code/ Android Studio
+✅ Flutter   
+✅ Firebase CLI   
+✅ Visual Studio Code/ Android Studio  
 
 ### 2. Clone the Repository
 Clone the project from your GitHub.
