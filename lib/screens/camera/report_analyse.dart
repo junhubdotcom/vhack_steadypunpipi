@@ -105,6 +105,10 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                               borderRadius: BorderRadius.circular(5),
                               borderSide: BorderSide.none)),
                       value: titleDropdownValue,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: 16),
                       icon: Icon(Icons.arrow_drop_down),
                       onChanged: (String? newValue) {
                         setState(() {
@@ -152,6 +156,10 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                               borderRadius: BorderRadius.circular(5),
                               borderSide: BorderSide.none)),
                       value: issueTypeDropdownValue,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: 16),
                       icon: Icon(Icons.arrow_drop_down),
                       onChanged: (String? newValue) {
                         setState(() {
@@ -255,6 +263,10 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                               borderRadius: BorderRadius.circular(5),
                               borderSide: BorderSide.none)),
                       value: departmentResponsibleDropdownValue,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: 16),
                       icon: Icon(Icons.arrow_drop_down),
                       onChanged: (String? newValue) {
                         setState(() {
