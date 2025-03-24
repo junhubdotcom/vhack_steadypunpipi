@@ -15,3 +15,17 @@ The system provides hands-free voice alerts for drivers about road hazards such 
 
 ### 4. Issue Tracking and Community Engagement
 A transparent issue tracking system updates statuses, including "Reported," "Under Review," "In Progress," and "Completed," ensuring accountability and visibility. The public voting system enables users to verify resolutions, enhancing trust and accuracy. To drive engagement, the platform incorporates gamification elements like badges and rewards, encouraging citizens to actively report issues and contribute to a safer, more efficient, and sustainable urban environment.
+
+## Get Started
+Follow these steps to set up and run the Road Protector system for development and testing.
+
+### Prerequisites
+✅ Flutter 
+✅ Firebase CLI 
+✅ Visual Studio Code
+
+### Clone the Repository
+'''
+git clone https://github.com/yourusername/yourrepository.git
+cd yourrepository
+'''
