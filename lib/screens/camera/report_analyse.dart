@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:steadypunpipi_vhack/models/report.dart';
+import 'package:steadypunpipi_vhack/screens/map/map.dart';
 import 'package:steadypunpipi_vhack/widget/camera/fill_box.dart';
 import 'package:steadypunpipi_vhack/widget/camera/label.dart';
 import 'package:steadypunpipi_vhack/widget/camera/level.dart';
@@ -319,7 +320,12 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MapPage()));
+                            },
                             child: Text(
                               'Cancel',
                               style: TextStyle(color: Colors.white),
@@ -332,7 +338,12 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MapPage()));
+                            },
                             child: Text(
                               'Submit',
                               style: TextStyle(color: Colors.black),
@@ -342,7 +353,10 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
                   ],
                 ),
               ),
