@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:steadypunpipi_vhack/common/constantS.dart';
+import 'package:steadypunpipi_vhack/models/map/noti_service.dart';
 import 'package:steadypunpipi_vhack/screens/map/map.dart';
-import 'route.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (await Permission.notification.isDenied) {
+    await Permission.notification.request();
+  }
+  NotiService().initNotification();
   runApp(MyApp());
 }
 
