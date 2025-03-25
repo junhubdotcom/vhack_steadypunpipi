@@ -1,30 +1,40 @@
+
 import 'package:flutter/material.dart';
 import 'package:steadypunpipi_vhack/widget/reportList/custom_button.dart';
+import 'package:steadypunpipi_vhack/models/report_data.dart';
+import 'package:steadypunpipi_vhack/widget/reportList/upvote_button.dart';
 
-class ButtonRow extends StatelessWidget {
+class ButtonRow extends StatefulWidget {
+  final int index;
   final String status;
+  final VoidCallback onUpvote;
+  final VoidCallback onDownvote;
 
-  const ButtonRow({required this.status});
+  const ButtonRow({
+    required this.index,
+    required this.status,
+    required this.onUpvote,
+    required this.onDownvote,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<ButtonRow> createState() => _ButtonRowState();
+}
+
+class _ButtonRowState extends State<ButtonRow> {
   @override
   Widget build(BuildContext context) {
+    final report = Issues.getReportByIndex(widget.index);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        CustomButton(
-            key: ValueKey('upvote_button'),
-            icon: Icons.arrow_upward,
-            text: "400",
-            color: Color(0xFFDEE4E7),
-            isPressed: false,
-            onPressed: () {}),
-        SizedBox(width: 4),
-        CustomButton(
-            key: ValueKey('downvote_button'),
-            icon: Icons.arrow_downward,
-            text: "10",
-            color: Color(0xFFDEE4E7),
-            isPressed: false,
-            onPressed: () {}),
+        VoteButton(
+          initialVotes: report?['count'],
+          onUpvote: widget.onUpvote,
+          onDownvote: widget.onDownvote,
+        ),
         SizedBox(width: 4),
         CustomButton(
             key: ValueKey('share_button'),
@@ -34,7 +44,7 @@ class ButtonRow extends StatelessWidget {
             isPressed: false,
             onPressed: () {}),
         SizedBox(width: 4),
-        status == 'Resolved'
+        report?['status'].toString().trim().toLowerCase() == "resolved"
             ? CustomButton(
                 key: ValueKey('reraise_button'),
                 icon: Icons.waving_hand,

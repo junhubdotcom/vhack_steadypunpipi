@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 class FillBox extends StatelessWidget {
   TextEditingController textEditingController;
   Widget? trailing;
-  FillBox(
-      {required this.textEditingController, this.trailing, super.key});
+  FillBox({required this.textEditingController, this.trailing, super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: textEditingController,
+      style: TextStyle(
+          fontWeight: FontWeight.w400, color: Colors.black, fontSize: 16),
       decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),

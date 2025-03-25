@@ -14,17 +14,31 @@ class ApiService {
       final image = File(imgPath);
       final bytes = await image.readAsBytes();
       final String mimeType = 'image/jpeg';
-      final String prompt = '''
-Analyze the given image and identify the issue it represents. Classify the issue according to the following categories:
 
-- **Title**: Select one from {Pothole, Fallen Tree, Accident, Broken Streetlight, Road Construction, Road Obstruction}.
+      // Get google vision result
+      final visionResult = await classifyImage(imgPath);
+      print(visionResult);
+      String visionLabels = "";
+
+      if (visionResult != null) {
+        final labels = visionResult['responses'][0]['labelAnnotations'] ?? [];
+        visionLabels =
+            labels.map((label) => label['description']).take(5).join(", ");
+        print(visionLabels);
+      }
+
+      final String prompt = '''
+Identify the issue by analyzing both the image and its extracted labels ($visionLabels) for accurate classification.
+Categorize the issue based on the following criteria:
+
+- **Title**: Select one from {Pothole, Fallen Tree, Clogged Drain, Broken Streetlight, Damaged Sidewalk, Blocked Street Sign}.
 - **ID**: Assign a corresponding ID based on the title:
   - Pothole = 1
   - Fallen Tree = 2
-  - Accident = 3
+  - Clogged Drain = 3
   - Broken Streetlight = 4
-  - Road Construction = 5
-  - Road Obstruction = 6
+  - Damaged Sidewalk = 5
+  - Blocked Street Sign = 6
 - **Issue Type**: Choose one from [Road and Traffic Issues, Public Infrastructure, Environment and Safety, Utility Issues].
 - **Severity**: Choose one from [High, Medium, Low] based on the potential impact of the issue.
 - **Urgency Level**: Choose one from [High, Medium, Low] based on how quickly it requires attention.
@@ -67,38 +81,39 @@ Analyze the given image and identify the issue it represents. Classify the issue
     }
   }
 
-  // Future<Map<String, dynamic>?> classifyImage(String imagePath) async {
-  //   try {
-  //     final bytes = File(imagePath).readAsBytesSync();
-  //     final String base64Image = base64Encode(bytes);
+  Future<Map<String, dynamic>?> classifyImage(String imagePath) async {
+    try {
+      final bytes = File(imagePath).readAsBytesSync();
+      final String base64Image = base64Encode(bytes);
 
-  //     final response = await http.post(
-  //       Uri.parse("https://vision.googleapis.com/v1/images:annotate?key= ${Constants.GOOGLE_VISION_API_KEY}"),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonEncode({
-  //         'requests': [
-  //           {
-  //             'image': {'content': base64Image},
-  //             'features': [
-  //               {'type': 'LABEL_DETECTION'},
-  //               {'type': 'OBJECT_LOCALIZATION'},
-  //               {'type': 'WEB_DETECTION'},
-  //               {'type': 'IMAGE_PROPERTIES'},
-  //             ]
-  //           }
-  //         ]
-  //       }),
-  //     );
+      final response = await http.post(
+        Uri.parse(
+            "https://vision.googleapis.com/v1/images:annotate?key= ${Constants.GOOGLE_VISION_API_KEY}"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'requests': [
+            {
+              'image': {'content': base64Image},
+              'features': [
+                {'type': 'LABEL_DETECTION'},
+                {'type': 'OBJECT_LOCALIZATION'},
+                {'type': 'WEB_DETECTION'},
+                {'type': 'IMAGE_PROPERTIES'},
+              ]
+            }
+          ]
+        }),
+      );
 
-  //     if (response.statusCode == 200) {
-  //       return jsonDecode(response.body);
-  //     } else {
-  //       print('Error: ${response.statusCode}, ${response.body}');
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     print('Exception: $e');
-  //     return null;
-  //   }
-  // }
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        print('Error: ${response.statusCode}, ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return null;
+    }
+  }
 }
