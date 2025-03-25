@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        backgroundColor: isPressed ? color.withOpacity(0.8) : color, 
+        backgroundColor: isPressed ? Colors.black.withOpacity(0.5) : color, 
         foregroundColor: Colors.black,
         elevation: 0, 
         shape: RoundedRectangleBorder(
@@ -37,9 +37,9 @@ class CustomButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: Colors.black, size: 22),
+          Icon(icon, color: isPressed ? Colors.white : Colors.black, size: 22),
           const SizedBox(width: 8),
-          Text(text),
+          Text(text, style: TextStyle(color: isPressed ? Colors.white : Colors.black),),
         ],
       ),
     );

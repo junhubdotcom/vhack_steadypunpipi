@@ -30,12 +30,23 @@ class _ReportPageState extends State<ReportPage> {
     });
   }
 
+  void _updateVotes(int index, bool isUpvote) {
+  setState(() {
+    if (isUpvote) {
+      Issues.incrementUpvotes(index);
+    } else {
+      Issues.decrementUpvotes(index);
+    }
+  });
+}
+
   List<Map<String, dynamic>> _filterReports(String statusFilter) {
-    return reportData.where((item) {
-      if (statusFilter.isNotEmpty && item["status"] != statusFilter) { // Change null check to isNotEmpty
+    return Issues.getAllReports().where((item) {
+      if (statusFilter.isNotEmpty && item["status"] != statusFilter) {
         return false;
       }
-      if (_searchQuery.isNotEmpty && !item["title"].toLowerCase().contains(_searchQuery.toLowerCase())) {
+      if (_searchQuery.isNotEmpty &&
+          !item["title"].toLowerCase().contains(_searchQuery.toLowerCase())) {
         return false;
       }
       return true;
@@ -65,14 +76,6 @@ class _ReportPageState extends State<ReportPage> {
                   ),
                 ),
           centerTitle: true,
-          leading: _isSearching ? IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              // Handle drawer icon press
-              Scaffold.of(context).openDrawer();
-            },
-          )
-          : null,
           actions: [
             if (!_isSearching)
               IconButton(
@@ -82,9 +85,15 @@ class _ReportPageState extends State<ReportPage> {
           ],
           bottom: TabBar(
             tabs: [
-              Tab(child: Text("Recent", style: TextStyle(fontWeight: FontWeight.normal))),
-              Tab(child: Text("In Progress", style: TextStyle(fontWeight: FontWeight.normal))),
-              Tab(child: Text("Resolved", style: TextStyle(fontWeight: FontWeight.normal))),
+              Tab(
+                  child: Text("Recent",
+                      style: TextStyle(fontWeight: FontWeight.normal))),
+              Tab(
+                  child: Text("In Progress",
+                      style: TextStyle(fontWeight: FontWeight.normal))),
+              Tab(
+                  child: Text("Resolved",
+                      style: TextStyle(fontWeight: FontWeight.normal))),
             ],
           ),
         ),
@@ -97,11 +106,9 @@ class _ReportPageState extends State<ReportPage> {
               itemBuilder: (context, index) {
                 final item = _filterReports('')[index];
                 return ReportItem(
-                  image: item["image"],
-                  title: item["title"],
-                  time: item["time"],
-                  status: item["status"],
-                  isIoTVerified: item["isIoTVerified"],
+                  index: index,
+                  onUpvote: () => _updateVotes(index, true),
+                  onDownvote: () => _updateVotes(index, false),
                 );
               },
             ),
@@ -111,11 +118,9 @@ class _ReportPageState extends State<ReportPage> {
               itemBuilder: (context, index) {
                 final item = _filterReports("In Progress")[index];
                 return ReportItem(
-                  image: item["image"],
-                  title: item["title"],
-                  time: item["time"],
-                  status: item["status"],
-                  isIoTVerified: item["isIoTVerified"],
+                  index: index,
+                  onUpvote: () => _updateVotes(index, true),
+                  onDownvote: () => _updateVotes(index, false),
                 );
               },
             ),
@@ -125,11 +130,9 @@ class _ReportPageState extends State<ReportPage> {
               itemBuilder: (context, index) {
                 final item = _filterReports("Resolved")[index];
                 return ReportItem(
-                  image: item["image"],
-                  title: item["title"],
-                  time: item["time"],
-                  status: item["status"],
-                  isIoTVerified: item["isIoTVerified"],
+                  index: index,
+                  onUpvote: () => _updateVotes(index, true),
+                  onDownvote: () => _updateVotes(index, false),
                 );
               },
             ),

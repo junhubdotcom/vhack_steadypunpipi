@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_box/flutter_sliding_box.dart';
 import 'package:geolocator/geolocator.dart';
@@ -102,28 +103,57 @@ class _MapPageState extends State<MapPage> {
     super.dispose();
   }
 
+  String _generateRandomAddress() {
+    final List<String> _addressList = [
+      'Jalan Bukit Bintang, Kuala Lumpur, 55100, Malaysia',
+      'Lot 10, Jalan Bukit Bintang, Kuala Lumpur, 50250, Malaysia',
+      'Pavilion Kuala Lumpur, Jalan Bukit Bintang, 55100, Malaysia',
+      'Berjaya Times Square, Jalan Imbi, Bukit Bintang, 55100, Kuala Lumpur',
+      'Jalan Ampang, Kuala Lumpur, 50450, Malaysia',
+      'Suria KLCC, Jalan Ampang, Kuala Lumpur, 50088, Malaysia',
+      'Intermark Mall, Jalan Tun Razak, off Jalan Ampang, 50400, Kuala Lumpur',
+      'Gleneagles Hospital, 282 & 286, Jalan Ampang, 50450, Kuala Lumpur',
+      'Persiaran Surian, Petaling Jaya, 47810, Selangor',
+      'Sunway Giza Mall, Persiaran Surian, Kota Damansara, 47810, Selangor',
+      'Tropicana Gardens Mall, Persiaran Surian, 47810, Petaling Jaya, Selangor',
+      'Persiaran Surian, near MRT Kota Damansara, 47810, Petaling Jaya, Selangor',
+      'Lebuhraya Damansara-Puchong (LDP), 47301, Selangor',
+      'IOI Mall Puchong, Lebuhraya Damansara-Puchong, 47100, Selangor',
+      'Kelana Jaya LRT, Lebuhraya Damansara-Puchong, 47301, Selangor',
+      'One Utama Shopping Centre, Lebuhraya Damansara-Puchong, 47800, Petaling Jaya',
+      'Jalan Kuching, Kuala Lumpur, 51200, Malaysia',
+      'Sentul Boulevard, Jalan Kuching, 51200, Kuala Lumpur',
+      'Batu Caves Temple, Jalan Kuching, 68100, Selangor',
+      'Plaza Arkadia, Desa ParkCity, Jalan Kuching, 52200, Kuala Lumpur',
+    ];
+
+    final int _randomIndex = Random().nextInt(_addressList.length);
+    return _addressList[_randomIndex];
+  }
+
   void _handlePrompt(int prompt) {
     if (prompt != 9) {
       setState(() {
-      issues.addReport(
-        id: prompt,
-        pos: _userLocation!,
-        title: prompt == 1
-          ? 'Pothole'
-          : prompt == 2
-            ? 'Fallen Tree'
-            : prompt == 3
-              ? 'Accident'
-              : prompt == 4
-                ? 'Broken Streetlight'
-                : prompt == 5
-                  ? 'Road Construction'
-                  : prompt == 6
-                    ? 'Blocked Road'
-                    : 'Other',
-        address: 'Unknown',
-        count: 0,
-      );
+        final String randomAddress = _generateRandomAddress();
+        issues.addReport(
+          id: prompt,
+          pos: _userLocation!,
+          title: prompt == 1
+              ? 'Pothole'
+              : prompt == 2
+                  ? 'Fallen Tree'
+                  : prompt == 3
+                      ? 'Accident'
+                      : prompt == 4
+                          ? 'Broken Streetlight'
+                          : prompt == 5
+                              ? 'Road Construction'
+                              : prompt == 6
+                                  ? 'Blocked Road'
+                                  : 'Other',
+          address: randomAddress,
+          count: 0,
+        );
       });
     } else {
       setState(() {
