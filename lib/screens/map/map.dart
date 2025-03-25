@@ -143,13 +143,13 @@ class _MapPageState extends State<MapPage> {
               : prompt == 2
                   ? 'Fallen Tree'
                   : prompt == 3
-                      ? 'Accident'
+                      ? 'Clogged Drains'
                       : prompt == 4
                           ? 'Broken Streetlight'
                           : prompt == 5
-                              ? 'Road Construction'
+                              ? 'Damaged Sidewalk'
                               : prompt == 6
-                                  ? 'Blocked Road'
+                                  ? 'Blocked Street Sign'
                                   : 'Other',
           address: randomAddress,
           count: 0,
