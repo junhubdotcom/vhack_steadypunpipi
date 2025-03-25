@@ -63,7 +63,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  "CBA1234567890",
+                  report?['reportNo'], 
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
                 Padding(
@@ -76,7 +76,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  "Pothole",
+                  report?['issueType'], 
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
                 Padding(
@@ -89,7 +89,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."',
+                  report?['description'],
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
                 Padding(
@@ -102,7 +102,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                    "Universiti Putra Malaysia, Kolej Canselor, 43400 Seri Kembangan, Selangor (2.995411,101.710011)",
+                    report?['address'], // Use dynamic location
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[700],
@@ -122,16 +122,18 @@ class ReportDetailPage extends StatelessWidget {
                       width: 12,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: _getUrgencyColor(report?['urgencyLevel']),
                         shape: BoxShape.circle,
                       ),
                     ),
                     SizedBox(width: 4),
-                    Text("High",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        )),
+                    Text(
+                      report?['urgencyLevel'] ?? "Unknown",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
                 Padding(
@@ -149,16 +151,18 @@ class ReportDetailPage extends StatelessWidget {
                       width: 12,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: Colors.yellow,
+                        color: _getSeverityColor(report?['severityLevel']),
                         shape: BoxShape.circle,
                       ),
                     ),
                     SizedBox(width: 4),
-                    Text("Critical",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        )),
+                    Text(
+                      report?['severityLevel'] ?? "Unknown",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -177,5 +181,31 @@ class ReportDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getUrgencyColor(String? urgencyLevel) {
+    switch (urgencyLevel?.toLowerCase()) {
+      case 'low':
+        return Colors.green;
+      case 'medium':
+        return Colors.orange;
+      case 'high':
+        return Colors.red;
+      default:
+        return Colors.grey; // Default color for unknown levels
+    }
+  }
+
+  Color _getSeverityColor(String? severityLevel) {
+    switch (severityLevel?.toLowerCase()) {
+      case 'low':
+        return Colors.green;
+      case 'moderate':
+        return Colors.orange;
+      case 'severe':
+        return Colors.red;
+      default:
+        return Colors.grey; // Default color for unknown levels
+    }
   }
 }
