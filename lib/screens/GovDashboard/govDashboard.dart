@@ -75,7 +75,6 @@ class _GovernmentDashboardState extends State<GovernmentDashboard> {
           children: [
               GridView.count(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
               crossAxisCount: 4,
               crossAxisSpacing: 4,
               mainAxisSpacing: 4,

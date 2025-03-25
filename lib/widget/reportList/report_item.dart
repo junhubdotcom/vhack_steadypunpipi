@@ -3,34 +3,31 @@ import 'package:steadypunpipi_vhack/widget/reportList/button_row.dart';
 import 'package:steadypunpipi_vhack/widget/reportList/status_badge.dart';
 import 'package:steadypunpipi_vhack/widget/reportList/time_widget.dart';
 import 'package:steadypunpipi_vhack/screens/reportList/report_detail.dart';
+import 'package:steadypunpipi_vhack/models/report_data.dart';
 
 class ReportItem extends StatelessWidget {
-  final String image;
-  final String title;
-  final String time;
-  final String status;
-  final bool isIoTVerified;
+  final int index;
+  final VoidCallback onUpvote;
+  final VoidCallback onDownvote;
 
-  ReportItem(
-      {required this.image,
-      required this.title,
-      required this.time,
-      required this.status,
-      required this.isIoTVerified});
+  ReportItem({
+    required this.index,
+    required this.onUpvote,
+    required this.onDownvote,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final report = Issues.getReportByIndex(index); 
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ReportDetailPage(
-              image: image,
-              title: title,
-              time: time,
-              status: status,
-              isIoTVerified: isIoTVerified,
+              index: index,
+              onUpvote: onUpvote, 
+              onDownvote: onDownvote,
             ),
           ),
         );
@@ -53,7 +50,7 @@ class ReportItem extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
-                      image,
+                      report?['image'],
                       width: 100,
                       height: 100,
                       fit: BoxFit.cover,
@@ -65,7 +62,7 @@ class ReportItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title,
+                          report?['title'],
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -74,18 +71,18 @@ class ReportItem extends StatelessWidget {
                         SizedBox(width: 8),
                         Row(
                           children: [
-                            TimeWidget(time: time),
+                            TimeWidget(time: report?['time']),
                           ],
                         ),
                         SizedBox(height: 8),
                         Row(
                           children: [
-                            if (isIoTVerified) ...[
+                            if (report?['isIoTVerified']) ...[
                               StatusBadge(text: 'IoT Verified'),
                               SizedBox(width: 8),
                             ],
                             SizedBox(width: 8),
-                            StatusBadge(text: status),
+                            StatusBadge(text: report?['status']),
                           ],
                         ),
                       ],
@@ -99,7 +96,12 @@ class ReportItem extends StatelessWidget {
                 style: TextStyle(fontSize: 14, color: Colors.grey[700]),
               ),
               SizedBox(height: 12),
-              ButtonRow(status: status),
+              ButtonRow(
+                index: index,
+                status: report?['status'],
+                onUpvote: onUpvote,
+                onDownvote: onDownvote,
+              ),
             ],
           ),
         ),
