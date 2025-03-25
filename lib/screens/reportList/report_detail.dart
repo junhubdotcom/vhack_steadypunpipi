@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:steadypunpipi_vhack/widget/reportList/button_row.dart';
 import 'package:steadypunpipi_vhack/widget/reportList/status_badge.dart';
+import 'package:steadypunpipi_vhack/models/report_data.dart';
 
 class ReportDetailPage extends StatelessWidget {
-  final String image;
-  final String title;
-  final String time;
-  final String status;
-  final bool isIoTVerified;
+  final int index;
+  final VoidCallback onUpvote;
+  final VoidCallback onDownvote;
 
   const ReportDetailPage({
-    required this.image,
-    required this.title,
-    required this.time,
-    required this.status,
-    required this.isIoTVerified,
+    required this.index,
+    required this.onUpvote,
+    required this.onDownvote,
   });
 
   @override
   Widget build(BuildContext context) {
+    final report = Issues.getReportByIndex(index); // Fetch report data dynamically
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -35,26 +34,26 @@ class ReportDetailPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(image),
+                Image.asset(report?['image']), // Use dynamic image
                 SizedBox(height: 16),
                 Text(
-                  title,
+                  report?['title'], // Use dynamic title
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  time,
+                  report?['time'], // Use dynamic time
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 SizedBox(height: 8),
                 Row(
                   children: [
-                    if (isIoTVerified) ...[
+                    if (report?['isIoTVerified']) ...[ // Use dynamic isIoTVerified
                       StatusBadge(text: 'IoT Verified'),
                       SizedBox(width: 8),
                     ],
                     SizedBox(width: 8),
-                    StatusBadge(text: status),
+                    StatusBadge(text: report?['status']), // Use dynamic status
                   ],
                 ),
                 SizedBox(height: 16),
@@ -64,7 +63,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  "CBA1234567890",
+                  report?['reportNo'], 
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
                 Padding(
@@ -77,7 +76,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  "Pothole",
+                  report?['issueType'], 
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
                 Padding(
@@ -90,7 +89,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                  '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."',
+                  report?['description'],
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 ),
                 Padding(
@@ -103,7 +102,7 @@ class ReportDetailPage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 Text(
-                    "Universiti Putra Malaysia, Kolej Canselor, 43400 Seri Kembangan, Selangor (2.995411,101.710011)",
+                    report?['address'], // Use dynamic location
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[700],
@@ -123,16 +122,18 @@ class ReportDetailPage extends StatelessWidget {
                       width: 12,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: _getUrgencyColor(report?['urgencyLevel']),
                         shape: BoxShape.circle,
                       ),
                     ),
                     SizedBox(width: 4),
-                    Text("High",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        )),
+                    Text(
+                      report?['urgencyLevel'] ?? "Unknown",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
                 Padding(
@@ -150,16 +151,18 @@ class ReportDetailPage extends StatelessWidget {
                       width: 12,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: Colors.yellow,
+                        color: _getSeverityColor(report?['severityLevel']),
                         shape: BoxShape.circle,
                       ),
                     ),
                     SizedBox(width: 4),
-                    Text("Critical",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[700],
-                        )),
+                    Text(
+                      report?['severityLevel'] ?? "Unknown",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -170,8 +173,39 @@ class ReportDetailPage extends StatelessWidget {
       bottomNavigationBar: Container(
         color: Colors.white, // Optional: Add background color to the button row
         padding: const EdgeInsets.all(16.0),
-        child: ButtonRow(status: status),
+        child: ButtonRow(
+          index: index,
+          status: report?["status"],
+          onUpvote: onUpvote,
+          onDownvote: onDownvote,
+        ),
       ),
     );
+  }
+
+  Color _getUrgencyColor(String? urgencyLevel) {
+    switch (urgencyLevel?.toLowerCase()) {
+      case 'low':
+        return Colors.green;
+      case 'medium':
+        return Colors.orange;
+      case 'high':
+        return Colors.red;
+      default:
+        return Colors.grey; // Default color for unknown levels
+    }
+  }
+
+  Color _getSeverityColor(String? severityLevel) {
+    switch (severityLevel?.toLowerCase()) {
+      case 'low':
+        return Colors.green;
+      case 'moderate':
+        return Colors.orange;
+      case 'severe':
+        return Colors.red;
+      default:
+        return Colors.grey; // Default color for unknown levels
+    }
   }
 }
