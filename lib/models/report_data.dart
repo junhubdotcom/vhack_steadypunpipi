@@ -152,6 +152,23 @@ class Issues {
     return _reportData;
   }
 
+// void addReportDetail({
+//   required String image,
+//   required String title,
+//   required String time,
+//   required String status,
+//   required bool isIoTVerified,
+// }) {
+//   Map<String, dynamic> reportDetails = {
+//     'image': image,
+//     'title': title,
+//     'time': time,
+//     'status': status,
+//     'isIoTVerified': isIoTVerified,
+//   };
+//   reportData.add(reportDetails);
+// }
+
   // Map<String, dynamic>? getReport(int index) {
   //   if (index >= 0 && index < _reportData.length) {
   //     return _reportData[index];
