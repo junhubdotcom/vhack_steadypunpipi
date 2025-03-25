@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:steadypunpipi_vhack/models/report.dart';
+import 'package:steadypunpipi_vhack/models/report_data.dart';
 import 'package:steadypunpipi_vhack/screens/map/map.dart';
+import 'package:steadypunpipi_vhack/screens/reportList/report_detail.dart';
 import 'package:steadypunpipi_vhack/widget/camera/fill_box.dart';
 import 'package:steadypunpipi_vhack/widget/camera/label.dart';
 import 'package:steadypunpipi_vhack/widget/camera/level.dart';
@@ -125,20 +127,20 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                           child: Text('Fallen Tree'),
                         ),
                         DropdownMenuItem<String>(
-                          value: 'Accident',
-                          child: Text('Accident'),
+                          value: 'Clogged Drain',
+                          child: Text('Clogged Drain'),
                         ),
                         DropdownMenuItem<String>(
                           value: 'Broken Streetlight',
                           child: Text('Broken Streetlight'),
                         ),
                         DropdownMenuItem<String>(
-                          value: 'Road Construction',
-                          child: Text('Road Construction'),
+                          value: 'Damaged Sidewalk',
+                          child: Text('Damaged Sidewalk'),
                         ),
                         DropdownMenuItem<String>(
-                          value: 'Road Obstruction',
-                          child: Text('Road Obstruction'),
+                          value: 'Blocked Street Sign',
+                          child: Text('Blocked Street Sign'),
                         ),
                       ],
                     ),
@@ -351,10 +353,59 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: ElevatedButton(
                             onPressed: () {
+                              _showTopSnackBar(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => MapPage()));
+
+                              // if (widget.imgPath != null) {
+                              //   try {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (context) => ReportDetailPage(
+                              //           image: widget.imgPath,
+                              //           title: titleDropdownValue,
+                              //           time: time_controller.text,
+                              //           status: "Reported",
+                              //           isIoTVerified: false,
+                              //         ),
+                              //       ),
+                              //     );
+                              //   } catch (e) {
+                              //     print("Navigation failed: $e");
+                              //   }
+                              // } else {
+                              //   print("Image path is null");
+                              // }
+
+                              // final newReport = {
+                              //   "image": widget.imgPath,
+                              //   "title": titleDropdownValue,
+                              //   "time": time_controller.text,
+                              //   "status": "Reported",
+                              //   "isIoTVerified": false,
+                              // };
+                              // reportData.add(newReport);
+                              // addReportDetail(
+                              //     image: widget.imgPath,
+                              //     title: titleDropdownValue,
+                              //     time: time_controller.text,
+                              //     status: "Reported",
+                              //     isIoTVerified: false);
+
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => ReportDetailPage(
+                              //             image: widget.imgPath,
+                              //             title: titleDropdownValue,
+                              //             time: time_controller.text,
+                              //             status: "Reported",
+                              //             isIoTVerified: false
+                              //             // viewAfterSubmit: true,
+                              //             )));
                             },
                             child: Text(
                               'Submit',
@@ -377,5 +428,52 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
         ),
       ),
     );
+  }
+
+  void _showTopSnackBar(BuildContext context) {
+    final overlay = Overlay.of(context);
+    final overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).padding.top + 10, // Adjusts for status bar
+        left: 20,
+        right: 20,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                )
+              ],
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white, size: 30),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    "The report has been submitted",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    // Remove the snackbar after 3 seconds
+    Future.delayed(Duration(seconds: 3), () {
+      overlayEntry.remove();
+    });
   }
 }

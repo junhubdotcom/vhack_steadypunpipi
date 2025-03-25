@@ -35,3 +35,20 @@ const List<Map<String, dynamic>> reportData = [
     "isIoTVerified": true
   }
 ];
+
+// void addReportDetail({
+//   required String image,
+//   required String title,
+//   required String time,
+//   required String status,
+//   required bool isIoTVerified,
+// }) {
+//   Map<String, dynamic> reportDetails = {
+//     'image': image,
+//     'title': title,
+//     'time': time,
+//     'status': status,
+//     'isIoTVerified': isIoTVerified,
+//   };
+//   reportData.add(reportDetails);
+// }
