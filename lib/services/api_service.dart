@@ -31,14 +31,14 @@ class ApiService {
 Identify the issue by analyzing both the image and its extracted labels ($visionLabels) for accurate classification.
 Categorize the issue based on the following criteria:
 
-- **Title**: Select one from {Pothole, Fallen Tree, Accident, Broken Streetlight, Road Construction, Road Obstruction}.
+- **Title**: Select one from {Pothole, Fallen Tree, Clogged Drain, Broken Streetlight, Damaged Sidewalk, Blocked Street Sign}.
 - **ID**: Assign a corresponding ID based on the title:
   - Pothole = 1
   - Fallen Tree = 2
-  - Accident = 3
+  - Clogged Drain = 3
   - Broken Streetlight = 4
-  - Road Construction = 5
-  - Road Obstruction = 6
+  - Damaged Sidewalk = 5
+  - Blocked Street Sign = 6
 - **Issue Type**: Choose one from [Road and Traffic Issues, Public Infrastructure, Environment and Safety, Utility Issues].
 - **Severity**: Choose one from [High, Medium, Low] based on the potential impact of the issue.
 - **Urgency Level**: Choose one from [High, Medium, Low] based on how quickly it requires attention.
