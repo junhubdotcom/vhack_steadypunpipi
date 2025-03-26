@@ -18,28 +18,36 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        backgroundColor: isPressed ? Colors.black.withOpacity(0.5) : color, 
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.03, // Responsive horizontal padding
+          vertical: screenWidth * 0.02, // Responsive vertical padding
+        ),
+        backgroundColor: isPressed ? Colors.black.withOpacity(0.5) : color,
         foregroundColor: Colors.black,
-        elevation: 0, 
+        elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(screenWidth * 0.05), // Responsive border radius
         ),
-        textStyle: const TextStyle(
+        textStyle: TextStyle(
           fontWeight: FontWeight.w500,
-          fontSize: 14,
+          fontSize: screenWidth * 0.035, // Responsive font size
         ),
-        minimumSize: const Size(0, 32),
+        minimumSize: Size(0, screenWidth * 0.08), // Responsive minimum size
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isPressed ? Colors.white : Colors.black, size: 22),
-          const SizedBox(width: 8),
-          Text(text, style: TextStyle(color: isPressed ? Colors.white : Colors.black),),
+          Icon(icon, color: isPressed ? Colors.white : Colors.black, size: screenWidth * 0.05), // Responsive icon size
+          SizedBox(width: screenWidth * 0.02), // Responsive spacing
+          Text(
+            text,
+            style: TextStyle(color: isPressed ? Colors.white : Colors.black),
+          ),
         ],
       ),
     );
