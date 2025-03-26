@@ -1,0 +1,2 @@
+C:/Users/furno/Desktop/New folder/vhack/steadypunpipi_vhack/android/app/.cxx/RelWithDebInfo/406u2d40/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/furno/Desktop/New folder/vhack/steadypunpipi_vhack/android/app/.cxx/RelWithDebInfo/406u2d40/x86_64/CMakeFiles/rebuild_cache.dir
