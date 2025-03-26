@@ -65,28 +65,35 @@ class _VoteButtonState extends State<VoteButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 1),
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Container(// Responsive width
+      height: screenWidth * 0.1, // Responsive height
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.01), // Responsive padding
       decoration: BoxDecoration(
         color: Color(0xFFDEE4E7),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(screenWidth * 0.08), // Responsive border radius
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
             icon: Icon(Icons.arrow_upward,
-                color: isUpvoted ? Colors.green : Colors.black),
+                color: isUpvoted ? Colors.green : Colors.black,
+                size: screenWidth * 0.04), // Responsive icon size
             onPressed: _toggleUpvote,
           ),
-          Text("$votes",
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              )),
+          Text(
+            "$votes",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: screenWidth * 0.035, // Responsive font size
+            ),
+          ),
           IconButton(
             icon: Icon(Icons.arrow_downward,
-                color: isDownvoted ? Colors.red : Colors.black),
+                color: isDownvoted ? Colors.red : Colors.black,
+                size: screenWidth * 0.04), // Responsive icon size
             onPressed: _toggleDownvote,
           ),
         ],

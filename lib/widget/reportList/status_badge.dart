@@ -4,7 +4,8 @@ class StatusBadge extends StatefulWidget {
   final String text;
   final String statusFilter;
 
-  const StatusBadge({required this.text, this.statusFilter = ''}); // Assign default value
+  const StatusBadge(
+      {required this.text, this.statusFilter = ''}); // Assign default value
 
   @override
   State<StatusBadge> createState() => _StatusBadgeState();
@@ -41,6 +42,8 @@ class _StatusBadgeState extends State<StatusBadge> {
       child: Text(
         widget.text,
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }

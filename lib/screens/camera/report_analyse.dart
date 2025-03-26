@@ -98,6 +98,7 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                   children: [
                     Label(title: "Title"),
                     DropdownButtonFormField<String>(
+                      isExpanded: true,
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -149,6 +150,7 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                     // ),
                     Label(title: "Issue Type"),
                     DropdownButtonFormField<String>(
+                      isExpanded: true,
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -256,6 +258,7 @@ class _ReportAnalyseState extends State<ReportAnalyse> {
                     // ),
                     Label(title: "Department Responsible"),
                     DropdownButtonFormField<String>(
+                      isExpanded: true,
                       decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 8, horizontal: 10),

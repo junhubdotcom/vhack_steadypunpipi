@@ -75,15 +75,18 @@ class ReportItem extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 8),
-                        Row(
-                          children: [
-                            if (report?['isIoTVerified']) ...[
-                              StatusBadge(text: 'IoT Verified'),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              if (report?['isIoTVerified']) ...[
+                                StatusBadge(text: 'IoT Verified'),
+                                SizedBox(width: 8),
+                              ],
                               SizedBox(width: 8),
+                              StatusBadge(text: report?['status']),
                             ],
-                            SizedBox(width: 8),
-                            StatusBadge(text: report?['status']),
-                          ],
+                          ),
                         ),
                       ],
                     ),
