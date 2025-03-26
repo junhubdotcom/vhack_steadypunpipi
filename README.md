@@ -2,6 +2,15 @@
 
 The Watcher leverages IoT, crowdsourcing, and AI-powered real-time data analytics to enhance public administration and urban mobility. IoT sensors and CCTV continuously monitor city conditions, detecting issues such as potholes, fallen trees, and broken streetlights. AI-powered image recognition enables quick reporting by classifying and prioritizing citizen reports based on urgency and severity, which are further verified through public voting and IoT data. This combined approach supports real-time risk assessment, ensuring swift responses to critical incidents. Integrated with navigation apps, the system delivers dynamic hazard alerts, while a structured report list with status updates promotes transparency and community engagement. Governments can track city-wide data through a dashboard that provides insights on issue types, report volumes, graphical analysis, and heatmaps. By automating issue detection and response, The Watcher strengthens urban resilience, optimizes resource allocation, and improves traffic flow.
 
+## Showcases
+| Key Features  | Demonstration |
+| :---:  | :---: |
+| Multi-Source Data Collection and AI-Powered Urban Monitoring ||
+| Real-Time Alerts ||
+| AI-Driven Risk Assessment and Crowdsourcing Prioritization ||
+| Issue Tracking and Community Engagement ||
+| Dashboard ||
+
 ## Features
 
 ### 1. Multi-Source Data Collection and AI-Powered Urban Monitoring
