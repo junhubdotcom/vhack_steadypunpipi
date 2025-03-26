@@ -195,42 +195,38 @@ class _MapPageState extends State<MapPage> {
         }
       },
       initialCameraPosition: CameraPosition(
-        target: _userLocation ?? LatLng(0, 0), // Fallback to a default location
+        target: _userLocation!,
         zoom: 15.0,
       ),
       zoomControlsEnabled: false,
       markers: {
-        if (_userLocation != null)
-          Marker(
-            markerId: MarkerId('userLocation'),
-            icon: BitmapDescriptor.defaultMarker,
-            position: _userLocation!,
-            infoWindow: InfoWindow(title: 'You'),
-          ),
+        Marker(
+          markerId: MarkerId('userLocation'),
+          icon: BitmapDescriptor.defaultMarker,
+          position: _userLocation!,
+          infoWindow: InfoWindow(title: 'You'),
+        ),
         for (int i = 0; i < issues.getReportCount(); i++)
-          if (issues.getReport(i) != null && issues.getReport(i)!['pos'] != null)
-            Marker(
-              markerId: MarkerId('issue$i'),
-              icon: _getMarkerColor(issues.getReport(i)!),
-              position: issues.getReport(i)!['pos'],
-              infoWindow: InfoWindow(title: issues.getReport(i)!['title']),
-            ),
+          Marker(
+            markerId: MarkerId('issue$i'),
+            icon: issues.getReport(i)!['id'] == 1
+                ? potholeIcon!
+                : issues.getReport(i)!['id'] == 2
+                    ? fallenTreeIcon!
+                    : issues.getReport(i)!['id'] == 3
+                        ? accidentIcon!
+                        : issues.getReport(i)!['id'] == 4
+                            ? brokenStreetlightIcon!
+                            : issues.getReport(i)!['id'] == 5
+                                ? roadConstructionIcon!
+                                : issues.getReport(i)!['id'] == 6
+                                    ? blockedRoadIcon!
+                                    : BitmapDescriptor.defaultMarker,
+            position: issues.getReport(i)!['pos'],
+            infoWindow: InfoWindow(title: issues.getReport(i)!['title']),
+          ),
       },
     );
-  }
-
-  BitmapDescriptor _getMarkerColor(Map<String, dynamic> report) {
-    final urgencyLevel = report['urgencyLevel']?.toLowerCase();
-    final severityLevel = report['severityLevel']?.toLowerCase();
-
-    if (urgencyLevel == 'low' && severityLevel == 'low') {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
-    } else if (urgencyLevel == 'medium' || severityLevel == 'moderate') {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
-    } else if (urgencyLevel == 'high' || severityLevel == 'severe') {
-      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
-    }
-    return BitmapDescriptor.defaultMarker; // Default fallback
   }
 
   Future<void> _cameraToPosition(LatLng position) async {
