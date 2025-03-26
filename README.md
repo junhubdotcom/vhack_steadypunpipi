@@ -64,4 +64,8 @@ To launch the web dashboard in Chrome:
 flutter run -t lib/govDashboard.dart -d chrome
 ```
 🔹 Note: If you want to run both at the same time, open two separate terminals and run each command in a different terminal.
-
+#### Run in APK file
+To download the apk file of the mobile app, please find the suitable apk file in:
+```
+build\app\outputs\apk\release
+```
