@@ -19,58 +19,77 @@ class _ChartSectionState extends State<ChartSection> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Tabs
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: tabs.map((tab) => _buildTabButton(tab)).toList(),
+            children: tabs.map((tab) => _buildTabButton(tab, screenWidth)).toList(),
           ),
           const SizedBox(height: 15),
-          const Text(
+          // Points Text
+          Text(
             '2,160 points',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(
+              fontSize: screenWidth * 0.05, // Responsive font size
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
           const SizedBox(height: 15),
+          // Chart and Categories
           Row(
             children: [
+              // Pie Chart
               Expanded(
                 flex: 2,
-                child:SizedBox(
-                  height: 200,
+                child: SizedBox(
+                  height: screenHeight * 0.25, // Responsive height
                   child: PieChart(
                     PieChartData(
                       sections: chartData,
                       sectionsSpace: 2,
-                      centerSpaceRadius: 50,
-                      ),
+                      centerSpaceRadius: screenWidth * 0.1, // Responsive center space
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Top Issues',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),),
-                      const SizedBox(height: 10),
-                      _buildCategory('Roads', chartData[0].color),
-                      _buildCategory('Transports', chartData[1].color),
-                      _buildCategory('Utilities', chartData[2].color),
-                    ],
-                  ),),
+              ),
+              // Categories
+              Expanded(
+                flex: 1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Top Issues',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.045, // Responsive font size
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    _buildCategory('Roads', chartData[0].color, screenWidth),
+                    _buildCategory('Transports', chartData[1].color, screenWidth),
+                    _buildCategory('Utilities', chartData[2].color, screenWidth),
+                  ],
+                ),
+              ),
             ],
           ),
-
           const SizedBox(height: 10),
         ],
       ),
     );
   }
 
-  Widget _buildTabButton(String tabName) {
+  Widget _buildTabButton(String tabName, double screenWidth) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -78,7 +97,10 @@ class _ChartSectionState extends State<ChartSection> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: screenWidth * 0.02, // Responsive vertical padding
+          horizontal: screenWidth * 0.05, // Responsive horizontal padding
+        ),
         decoration: BoxDecoration(
           color: selectedTab == tabName ? Colors.black : Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -88,7 +110,7 @@ class _ChartSectionState extends State<ChartSection> {
           tabName,
           style: TextStyle(
             color: selectedTab == tabName ? Colors.white : Colors.black,
-            fontSize: 14,
+            fontSize: screenWidth * 0.035, // Responsive font size
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -96,14 +118,18 @@ class _ChartSectionState extends State<ChartSection> {
     );
   }
 
-  Widget _buildCategory(String title, Color color) {
+  Widget _buildCategory(String title, Color color, double screenWidth) {
     return Row(
       children: [
-        Icon(Icons.circle, color: color, size: 12),
-        const SizedBox(width: 8),
+        Icon(Icons.circle, color: color, size: screenWidth * 0.03), // Responsive icon size
+        SizedBox(width: screenWidth * 0.02), // Responsive spacing
         Text(
           title,
-          style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: color),
+          style: TextStyle(
+            fontSize: screenWidth * 0.04, // Responsive font size
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
         ),
       ],
     );
