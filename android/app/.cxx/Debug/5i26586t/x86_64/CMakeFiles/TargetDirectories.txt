@@ -1,2 +1,0 @@
-C:/Users/Lenovo/Vhack 2025/vhack_steadypunpipi/android/app/.cxx/Debug/5i26586t/x86_64/CMakeFiles/edit_cache.dir
-C:/Users/Lenovo/Vhack 2025/vhack_steadypunpipi/android/app/.cxx/Debug/5i26586t/x86_64/CMakeFiles/rebuild_cache.dir
