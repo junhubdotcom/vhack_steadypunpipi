@@ -14,7 +14,7 @@ The Watcher provides hands-free voice alerts for drivers about road hazards such
 By using AI, reported issues are classified and prioritized based on severity, urgency, and potential hazards. A public voting system allows users to validate reports by upvoting, downvoting, or adding details, ensuring more accurate assessments. This approach helps authorities allocate resources efficiently, address critical problems first, and transition from reactive to proactive urban management.
 
 ### 4. Issue Tracking and Community Engagement
-A transparent issue tracking system updates statuses, including "Reported," "Under Review," "In Progress," and "Completed," ensuring accountability and visibility. The public voting system enables users to verify resolutions, enhancing trust and accuracy. To drive engagement, the platform incorporates gamification elements like badges and rewards, encouraging citizens to actively report issues and contribute to a safer, more efficient, and sustainable urban environment.
+A transparent tracking system updates issue statuses like "Reported," "In Progress," and "Completed," ensuring visibility and accountability. Citizens verify resolutions through public voting, improving accuracy and trust. To boost engagement, a reward system allows users to earn points redeemable for vouchers, encouraging active participation. Meanwhile, the government dashboard tracks total, pending, and resolved cases, highlights frequent issues on a heat map, analyzes daily trends in a weekly report, and sends instant alerts for critical incidents, enabling better decision-making.
 
 ## Get Started
 Follow these steps to set up and run The Watcher.
